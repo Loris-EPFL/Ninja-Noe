@@ -13,6 +13,8 @@ runs = 1024
 [rpc_endpoints]
 avalanche = "https://api.avax.network/ext/bc/C/rpc"
 fuji = "https://api.avax-test.network/ext/bc/C/rpc"
+injective = "https://inevm.calderachain.xyz/http"
+injective_testnet = "https://testnet.rpc.inevm.com/http"
 
 [etherscan]
 arbitrum = { key = "${ARBISCAN_API_KEY}", chain = 42161 }

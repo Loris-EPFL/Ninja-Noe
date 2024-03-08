@@ -25,10 +25,10 @@ contract CoreDeployer is Script {
         address wNative;
     }
 
-    string[] chains = ["avalanche_fuji", "arbitrum_one_goerli"];
+    string[] chains = ["inEVM_mainnet"];
 
     function setUp() public {
-        _overwriteDefaultArbitrumRPC();
+        _overwriteDefaultInjectiveRPC();
     }
 
     function run() public {
@@ -71,9 +71,13 @@ contract CoreDeployer is Script {
             factory.setLBPairImplementation(address(pairImplementation));
             console.log("LBPair implementation set on factory\n");
 
-            uint256 quoteAssets = ILBLegacyFactory(deployment.factoryV2).getNumberOfQuoteAssets();
-            for (uint256 j = 0; j < quoteAssets; j++) {
-                IERC20 quoteAsset = ILBLegacyFactory(deployment.factoryV2).getQuoteAsset(j);
+            address USDT = 0x97423A68BAe94b5De52d767a17aBCc54c157c0E5;
+            address USDC = 0x8358D8291e3bEDb04804975eEa0fe9fe0fAfB147;
+            IERC20[2] memory quoteAssets = [IERC20(USDT), IERC20(USDC)];
+
+            uint256 quoteAssetsSize = 2;
+            for (uint256 j = 0; j < quoteAssetsSize; j++) {
+                IERC20 quoteAsset = quoteAssets[j];
                 factory.addQuoteAsset(quoteAsset);
                 console.log("Quote asset whitelisted -->", address(quoteAsset));
             }
@@ -106,6 +110,28 @@ contract CoreDeployer is Script {
                 name: "Arbitrum One Goerli",
                 chainId: 421613,
                 rpcUrl: vm.envString("ARBITRUM_TESTNET_RPC_URL")
+            })
+        );
+    }
+
+    function _overwriteDefaultInjectiveRPC() private {
+        StdChains.setChain(
+            "inEVM_mainnet",
+            StdChains.ChainData({
+                name: "Injective Mainnet",
+                chainId: 1738,
+                rpcUrl: vm.envString("INJECTIVE_RPC_MAINNET_URL")
+            })
+        );
+    }
+
+    function _overwriteDefaultInjectiveTestnetRPC() private {
+        StdChains.setChain(
+            "inEVM_testnet",
+            StdChains.ChainData({
+                name: "Injective Testnet",
+                chainId: 2424,
+                rpcUrl: vm.envString("INJECTIVE_RPC_TESTNET_URL")
             })
         );
     }

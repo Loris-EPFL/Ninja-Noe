@@ -64,5 +64,11 @@ ___
 To run tests, run the following command:
 
 ```
-forge test
+
+SEI v2 Devnet forge test --fork-url https://evm-rpc-arctic-1.sei-apis.com
+Injective Mainnet forge test --fork-url https://inevm.calderachain.xyz/http
+Injective Testnet forge test --fork-url https://testnet.rpc.inevm.com/http
 ```
+## Deploy
+
+To deploy on a specific chain, add the chain and addresses in deployments.json, and then run forge script script/deploy-core.s.sol 

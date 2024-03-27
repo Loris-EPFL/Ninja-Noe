@@ -25,10 +25,12 @@ contract CoreDeployer is Script {
         address wNative;
     }
 
-    string[] chains = ["inEVM_mainnet"];
+    string[] chains = ["SEIv2"];
 
     function setUp() public {
+        //Put desired chain function
         _overwriteDefaultInjectiveRPC();
+        _overwriteDefaultSEIv2RPC();
     }
 
     function run() public {
@@ -73,6 +75,7 @@ contract CoreDeployer is Script {
 
             address USDT = 0x97423A68BAe94b5De52d767a17aBCc54c157c0E5;
             address USDC = 0x8358D8291e3bEDb04804975eEa0fe9fe0fAfB147;
+            
             IERC20[2] memory quoteAssets = [IERC20(USDT), IERC20(USDC)];
 
             uint256 quoteAssetsSize = 2;
@@ -119,7 +122,7 @@ contract CoreDeployer is Script {
             "inEVM_mainnet",
             StdChains.ChainData({
                 name: "Injective Mainnet",
-                chainId: 1738,
+                chainId: 2525,
                 rpcUrl: vm.envString("INJECTIVE_RPC_MAINNET_URL")
             })
         );
@@ -132,6 +135,17 @@ contract CoreDeployer is Script {
                 name: "Injective Testnet",
                 chainId: 2424,
                 rpcUrl: vm.envString("INJECTIVE_RPC_TESTNET_URL")
+            })
+        );
+    }
+
+    function _overwriteDefaultSEIv2RPC() private {
+        StdChains.setChain(
+            "SEIv2",
+            StdChains.ChainData({
+                name: "Sei v2 Devnet",
+                chainId: 713715,
+                rpcUrl: vm.envString("SEI_V2_DEVNET_RPC_URL")
             })
         );
     }
